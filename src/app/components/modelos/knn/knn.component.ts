@@ -12,6 +12,8 @@ import { PLATFORM_ID } from '@angular/core';
 
 import Chart from 'chart.js/auto';
 import { AccuracyPoint } from '../../../interfaces/accuracyPoint';
+import { KnnCurve } from '../../../interfaces/knnCurve';
+import { getKnnCurve, getKnnResult } from '../../../DBManagement/DBManagement';
 
 @Component({
   selector: 'app-knn',
@@ -34,7 +36,25 @@ export class KnnComponent implements AfterViewInit, OnDestroy {
   readonly MIN_K = 1;
   readonly MAX_K = 25;
 
-  accuracyByK: AccuracyPoint[] = [
+  knnResult = {
+    k: 0,
+    accuracy: 0,
+    precision: 0,
+    recall: 0,
+    f1: 0,
+    tp: 0,
+    fp: 0,
+    fn: 0,
+    tn: 0
+  }
+
+  knnCurve: KnnCurve = {
+    min_k: 0,
+    max_k: 0,
+    points: []
+  }
+
+  /*accuracyByK: AccuracyPoint[] = [
     { k: 1, accuracy: 0.70 },
     { k: 3, accuracy: 0.74 },
     { k: 5, accuracy: 0.77 },
@@ -42,14 +62,19 @@ export class KnnComponent implements AfterViewInit, OnDestroy {
     { k: 9, accuracy: 0.77 },
     { k: 11, accuracy: 0.76 },
     { k: 13, accuracy: 0.74 }
-  ];
+  ];*/
 
   ngAfterViewInit(): void {
-    // Evita SSR
     if (!this.isBrowser) return;
 
     // Asegura que el canvas exista
     queueMicrotask(() => this.renderAccuracyChart());
+  }
+
+  ngOnInit() {
+    this.updateKnnResult(this.k);
+
+    this.loadKnnCurve();
   }
 
   ngOnDestroy(): void {
@@ -67,7 +92,7 @@ export class KnnComponent implements AfterViewInit, OnDestroy {
 
   /** Llama a esto cuando recibas datos de tu API */
   updateAccuracyData(points: AccuracyPoint[]): void {
-    this.accuracyByK = points;
+    this.knnCurve.points = points;
     this.updateChart();
   }
 
@@ -89,12 +114,11 @@ export class KnnComponent implements AfterViewInit, OnDestroy {
     this.chart = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: this.accuracyByK.map(p => p.k.toString()),
+        labels: this.knnCurve.points.map(p => p.k.toString()),
         datasets: [
           {
             label: 'Accuracy',
-            data: this.accuracyByK.map(p => p.accuracy),
-
+            data: this.knnCurve.points.map(p => p.accuracy),
             borderColor: violetGradient,
             backgroundColor: violetGradient,
 
@@ -121,8 +145,8 @@ export class KnnComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    this.chart.data.labels = this.accuracyByK.map(p => p.k.toString());
-    this.chart.data.datasets[0].data = this.accuracyByK.map(p => p.accuracy);
+    this.chart.data.labels = this.knnCurve.points.map(p => p.k.toString());
+    this.chart.data.datasets[0].data = this.knnCurve.points.map(p => p.accuracy);
     this.chart.update();
   }
 
@@ -151,10 +175,22 @@ export class KnnComponent implements AfterViewInit, OnDestroy {
           title: { display: true, text: yLabel, color: 'rgba(255,255,255,0.65)' },
           ticks: { color: 'rgba(255,255,255,0.55)' },
           grid: { color: 'rgba(255,255,255,0.06)' },
-          suggestedMin: 0,
-          suggestedMax: 1
+          suggestedMin: 0.67,
+          suggestedMax: 0.78
         }
       }
     };
+  }
+
+
+
+  async updateKnnResult(k: number) {
+    this.knnResult = await getKnnResult(k);
+  }
+
+  async loadKnnCurve() {
+    this.knnCurve = await getKnnCurve();
+
+    this.updateChart();
   }
 }

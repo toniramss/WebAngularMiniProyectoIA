@@ -102,7 +102,7 @@
                     </div>
 
                     <!-- Botón -->
-                    <button type="button" class="w-full rounded-2xl px-5 py-3 font-medium text-sm text-white
+                    <button type="button" (click)="updateKnnResult(k)" class="w-full rounded-2xl px-5 py-3 font-medium text-sm text-white
                    border border-white/10
                    bg-gradient-to-r from-blue-500/25 via-violet-500/25 to-pink-500/25
                    hover:from-blue-500/35 hover:via-violet-500/35 hover:to-pink-500/35
@@ -155,25 +155,25 @@
                 <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div class="rounded-2xl border border-white/10 bg-black/30 p-4">
                         <p class="text-xs text-white/45 uppercase tracking-wider">Accuracy</p>
-                        <p class="mt-2 text-2xl font-semibold text-white">0.78</p>
+                        <p class="mt-2 text-2xl font-semibold text-white">{{knnResult.accuracy}}</p>
                         <p class="mt-1 text-xs text-white/45">Global</p>
                     </div>
 
                     <div class="rounded-2xl border border-white/10 bg-black/30 p-4">
                         <p class="text-xs text-white/45 uppercase tracking-wider">F1-score</p>
-                        <p class="mt-2 text-2xl font-semibold text-white">0.76</p>
+                        <p class="mt-2 text-2xl font-semibold text-white">{{knnResult.f1}}</p>
                         <p class="mt-1 text-xs text-white/45">Balance</p>
                     </div>
 
                     <div class="rounded-2xl border border-white/10 bg-black/30 p-4">
                         <p class="text-xs text-white/45 uppercase tracking-wider">Precision</p>
-                        <p class="mt-2 text-2xl font-semibold text-white">0.75</p>
+                        <p class="mt-2 text-2xl font-semibold text-white">{{knnResult.precision}}</p>
                         <p class="mt-1 text-xs text-white/45">Positivos</p>
                     </div>
 
                     <div class="rounded-2xl border border-white/10 bg-black/30 p-4">
                         <p class="text-xs text-white/45 uppercase tracking-wider">Recall</p>
-                        <p class="mt-2 text-2xl font-semibold text-white">0.77</p>
+                        <p class="mt-2 text-2xl font-semibold text-white">{{knnResult.recall}}</p>
                         <p class="mt-1 text-xs text-white/45">Sensibilidad</p>
                     </div>
                 </div>
@@ -191,22 +191,22 @@
                             <div
                                 class="rounded-xl border border-white/10 bg-gradient-to-br from-blue-500/15 via-violet-500/10 to-transparent p-4">
                                 <p class="text-xs text-white/50">TP</p>
-                                <p class="text-2xl font-semibold text-white mt-1">120</p>
+                                <p class="text-2xl font-semibold text-white mt-1">{{knnResult.tp}}</p>
                             </div>
                             <div
                                 class="rounded-xl border border-white/10 bg-gradient-to-br from-pink-500/15 via-violet-500/10 to-transparent p-4">
                                 <p class="text-xs text-white/50">FP</p>
-                                <p class="text-2xl font-semibold text-white mt-1">30</p>
+                                <p class="text-2xl font-semibold text-white mt-1">{{knnResult.fp}}</p>
                             </div>
                             <div
                                 class="rounded-xl border border-white/10 bg-gradient-to-br from-pink-500/10 via-blue-500/10 to-transparent p-4">
                                 <p class="text-xs text-white/50">FN</p>
-                                <p class="text-2xl font-semibold text-white mt-1">25</p>
+                                <p class="text-2xl font-semibold text-white mt-1">{{knnResult.fn}}</p>
                             </div>
                             <div
                                 class="rounded-xl border border-white/10 bg-gradient-to-br from-blue-500/10 via-violet-500/10 to-transparent p-4">
                                 <p class="text-xs text-white/50">TN</p>
-                                <p class="text-2xl font-semibold text-white mt-1">90</p>
+                                <p class="text-2xl font-semibold text-white mt-1">{{knnResult.tn}}</p>
                             </div>
                         </div>
 
