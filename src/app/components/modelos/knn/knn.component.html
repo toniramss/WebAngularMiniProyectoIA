@@ -1,1 +1,301 @@
-<p>knn works!</p>
+<div class="w-full mt-10 text-center relative">
+
+    <!-- Título principal -->
+    <h1 class="text-4xl md:text-5xl font-semibold tracking-tight
+           text-transparent bg-clip-text
+           bg-gradient-to-r from-blue-400 via-violet-400 to-pink-400">
+        K-Nearest Neighbors
+    </h1>
+
+    <!-- Subrayado decorativo -->
+    <div class="mx-auto mt-4 h-[2px] w-32
+           bg-gradient-to-r from-transparent via-violet-400 to-transparent">
+    </div>
+
+    <!-- Subtítulo -->
+    <p class="mt-6 text-base md:text-lg text-white/60 max-w-2xl mx-auto leading-relaxed">
+        Exploración interactiva del modelo aplicada al conjunto de datos Wine Quality.
+        Ajusta el valor de
+        <span class="font-medium text-white">K</span>
+        y analiza cómo cambia el rendimiento del modelo en tiempo real.
+    </p>
+
+    <!-- Badge -->
+    <span class="inline-block mt-5 px-4 py-1 rounded-full text-xs tracking-wide
+       border border-violet-400/30
+       bg-gradient-to-r from-blue-500/10 via-violet-500/10 to-pink-500/10
+       text-violet-300">
+        Clasificación · Aprendizaje supervisado
+    </span>
+
+
+</div>
+
+
+
+
+
+
+<div class="mx-auto max-w-6xl px-6 my-10">
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-6">
+
+        <!-- PANEL DE CONTROL -->
+        <div class="relative overflow-hidden rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md p-6">
+            <!-- glow -->
+            <div class="pointer-events-none absolute inset-0 opacity-60" style="background:
+             radial-gradient(120% 90% at 20% 0%, rgba(59,130,246,0.20), transparent 55%),
+             radial-gradient(120% 90% at 100% 30%, rgba(139,92,246,0.18), transparent 55%),
+             radial-gradient(120% 90% at 40% 110%, rgba(236,72,153,0.18), transparent 60%);
+           ">
+            </div>
+
+            <div class="relative">
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <p class="text-xs tracking-[0.28em] uppercase text-white/50">Control Panel</p>
+                        <h2 class="mt-2 text-xl font-semibold text-white">Parámetro K</h2>
+                        <p class="mt-2 text-sm text-white/60 leading-relaxed">
+                            Ajusta K y recalcula el modelo para ver cómo cambian las métricas.
+                        </p>
+                    </div>
+
+                    <span class="shrink-0 inline-flex items-center rounded-full px-3 py-1 text-xs
+                       border border-violet-400/30 text-violet-300
+                       bg-gradient-to-r from-blue-500/10 via-violet-500/10 to-pink-500/10">
+                        Live
+                    </span>
+                </div>
+
+                <!-- Input + Slider -->
+                <div class="mt-6 space-y-4">
+                    <div class="flex items-end justify-between gap-4">
+                        <label class="text-sm text-white/70">
+                            Valor de K
+                            <span class="block text-xs text-white/40">Rango recomendado: 1-25</span>
+                        </label>
+
+                        <!-- Número (bindea a tu variable k) -->
+                        <div class="flex items-center gap-2">
+                            <button type="button" (click)="decrementK()"
+                                class="h-10 w-10 rounded-xl border border-white/10 bg-white/5 text-white/80 hover:bg-white/10 transition">
+                                -
+                            </button>
+
+                            <input type="number" [min]="MIN_K" [max]="MAX_K" [(ngModel)]="k" class="h-10 w-20 rounded-xl border border-white/10 bg-black/30 text-white text-center
+                       outline-none focus:border-violet-400/50 focus:ring-2 focus:ring-violet-400/20 no-spinner" />
+
+                            <button type="button" (click)="incrementK()"
+                                class="h-10 w-10 rounded-xl border border-white/10 bg-white/5 text-white/80 hover:bg-white/10 transition">
+                                +
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Slider (bindea a tu variable k) -->
+                    <div class="rounded-2xl border border-white/10 bg-black/30 p-4">
+                        <div class="flex items-center justify-between text-xs text-white/50 mb-2">
+                            <span>{{ MIN_K }}</span>
+                            <span>{{ MAX_K }}</span>
+                        </div>
+                        <input type="range" [min]="MIN_K" [max]="MAX_K" step="1" [(ngModel)]="k"
+                            class="w-full accent-violet-400" />
+                    </div>
+
+                    <!-- Botón -->
+                    <button type="button" class="w-full rounded-2xl px-5 py-3 font-medium text-sm text-white
+                   border border-white/10
+                   bg-gradient-to-r from-blue-500/25 via-violet-500/25 to-pink-500/25
+                   hover:from-blue-500/35 hover:via-violet-500/35 hover:to-pink-500/35
+                   transition shadow-[0_20px_60px_rgba(0,0,0,0.45)]">
+                        Recalcular modelo
+                    </button>
+
+                    <!-- Mini notas -->
+                    <div class="mt-2 grid grid-cols-2 gap-3 text-xs">
+                        <div class="rounded-xl border border-white/10 bg-white/5 p-3 text-white/70">
+                            <span class="text-white/40 block mb-1">K bajo</span>
+                            Más sensible (riesgo overfitting)
+                        </div>
+                        <div class="rounded-xl border border-white/10 bg-white/5 p-3 text-white/70">
+                            <span class="text-white/40 block mb-1">K alto</span>
+                            Más estable (riesgo underfitting)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RESULTADO PRINCIPAL -->
+        <div class="relative overflow-hidden rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md p-6">
+            <!-- glow -->
+            <div class="pointer-events-none absolute inset-0 opacity-60" style="background:
+             radial-gradient(120% 90% at 30% 0%, rgba(236,72,153,0.18), transparent 55%),
+             radial-gradient(120% 90% at 100% 35%, rgba(139,92,246,0.18), transparent 55%),
+             radial-gradient(120% 90% at 50% 120%, rgba(59,130,246,0.14), transparent 60%);
+           ">
+            </div>
+
+            <div class="relative">
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <p class="text-xs tracking-[0.28em] uppercase text-white/50">Main Result</p>
+                        <h2 class="mt-2 text-xl font-semibold text-white">Rendimiento del modelo</h2>
+                        <p class="mt-2 text-sm text-white/60 leading-relaxed">
+                            Métricas principales y matriz de confusión para el K seleccionado.
+                        </p>
+                    </div>
+
+                    <div class="text-right">
+                        <p class="text-xs text-white/40">K actual</p>
+                        <p class="text-2xl font-semibold text-white">{{k}}</p>
+                    </div>
+                </div>
+
+                <!-- KPIs -->
+                <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="rounded-2xl border border-white/10 bg-black/30 p-4">
+                        <p class="text-xs text-white/45 uppercase tracking-wider">Accuracy</p>
+                        <p class="mt-2 text-2xl font-semibold text-white">0.78</p>
+                        <p class="mt-1 text-xs text-white/45">Global</p>
+                    </div>
+
+                    <div class="rounded-2xl border border-white/10 bg-black/30 p-4">
+                        <p class="text-xs text-white/45 uppercase tracking-wider">F1-score</p>
+                        <p class="mt-2 text-2xl font-semibold text-white">0.76</p>
+                        <p class="mt-1 text-xs text-white/45">Balance</p>
+                    </div>
+
+                    <div class="rounded-2xl border border-white/10 bg-black/30 p-4">
+                        <p class="text-xs text-white/45 uppercase tracking-wider">Precision</p>
+                        <p class="mt-2 text-2xl font-semibold text-white">0.75</p>
+                        <p class="mt-1 text-xs text-white/45">Positivos</p>
+                    </div>
+
+                    <div class="rounded-2xl border border-white/10 bg-black/30 p-4">
+                        <p class="text-xs text-white/45 uppercase tracking-wider">Recall</p>
+                        <p class="mt-2 text-2xl font-semibold text-white">0.77</p>
+                        <p class="mt-1 text-xs text-white/45">Sensibilidad</p>
+                    </div>
+                </div>
+
+                <!-- Confusion Matrix -->
+                <div class="mt-6 ">
+
+                    <div class="rounded-2xl border border-white/10 bg-black/30 p-5">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-sm font-semibold text-white">Matriz de confusión</h3>
+                            <span class="text-xs text-white/45">Alta vs Baja calidad</span>
+                        </div>
+
+                        <div class="mt-4 grid grid-cols-2 gap-3">
+                            <div
+                                class="rounded-xl border border-white/10 bg-gradient-to-br from-blue-500/15 via-violet-500/10 to-transparent p-4">
+                                <p class="text-xs text-white/50">TP</p>
+                                <p class="text-2xl font-semibold text-white mt-1">120</p>
+                            </div>
+                            <div
+                                class="rounded-xl border border-white/10 bg-gradient-to-br from-pink-500/15 via-violet-500/10 to-transparent p-4">
+                                <p class="text-xs text-white/50">FP</p>
+                                <p class="text-2xl font-semibold text-white mt-1">30</p>
+                            </div>
+                            <div
+                                class="rounded-xl border border-white/10 bg-gradient-to-br from-pink-500/10 via-blue-500/10 to-transparent p-4">
+                                <p class="text-xs text-white/50">FN</p>
+                                <p class="text-2xl font-semibold text-white mt-1">25</p>
+                            </div>
+                            <div
+                                class="rounded-xl border border-white/10 bg-gradient-to-br from-blue-500/10 via-violet-500/10 to-transparent p-4">
+                                <p class="text-xs text-white/50">TN</p>
+                                <p class="text-2xl font-semibold text-white mt-1">90</p>
+                            </div>
+                        </div>
+
+                        <p class="mt-4 text-xs text-white/45 leading-relaxed">
+                            TP/TN son aciertos. FP/FN son errores. Ajusta K para equilibrar precisión y recall.
+                        </p>
+                    </div>
+
+                    
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<div class="mx-auto max-w-6xl px-6 my-6">
+    <div class="relative overflow-hidden rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md p-6">
+
+        <!-- glow -->
+        <div class="pointer-events-none absolute inset-0 opacity-60" style="background:
+           radial-gradient(120% 90% at 20% 0%, rgba(59,130,246,0.18), transparent 55%),
+           radial-gradient(120% 90% at 100% 30%, rgba(139,92,246,0.16), transparent 55%),
+           radial-gradient(120% 90% at 50% 120%, rgba(236,72,153,0.14), transparent 60%);
+         ">
+        </div>
+
+        <div class="relative flex items-start justify-between gap-4">
+            <div>
+                <p class="text-xs tracking-[0.28em] uppercase text-white/50">Model Curve</p>
+                <h2 class="mt-2 text-xl font-semibold text-white">Accuracy vs K</h2>
+                <p class="mt-2 text-sm text-white/60">
+                    Evolución del rendimiento del modelo al variar el número de vecinos.
+                </p>
+            </div>
+
+            <span class="shrink-0 inline-flex items-center rounded-full px-3 py-1 text-xs
+                   border border-violet-400/30 text-violet-300
+                   bg-gradient-to-r from-blue-500/10 via-violet-500/10 to-pink-500/10">
+                Live chart
+            </span>
+        </div>
+
+        <div class="relative mt-6 h-[340px]">
+            <canvas #accuracyCanvas></canvas>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+<div class="mx-auto max-w-6xl px-6 my-6">
+    <div class="relative rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md p-6">
+
+        <p class="text-xs tracking-[0.28em] uppercase text-white/50">
+            Interpretación
+        </p>
+
+        <h2 class="mt-2 text-lg font-semibold text-white">
+            Comportamiento del modelo KNN
+        </h2>
+
+        <p class="mt-4 text-sm text-white/70 leading-relaxed">
+            El algoritmo <span class="text-white font-medium">K-Nearest Neighbors</span>
+            clasifica cada muestra en función de sus
+            <span class="text-white font-medium">K vecinos más cercanos</span>.
+        </p>
+
+        <p class="mt-3 text-sm text-white/70 leading-relaxed">
+            Valores bajos de <span class="text-violet-300 font-medium">K</span>
+            hacen al modelo más sensible a los datos, mientras que valores altos
+            lo vuelven más estable pero menos preciso.
+        </p>
+
+        <p class="mt-3 text-sm text-white/70 leading-relaxed">
+            Con <span class="text-white font-medium">K = {{ k }}</span>,
+            el modelo muestra un equilibrio adecuado entre
+            <span class="text-violet-300 font-medium">precisión</span> y
+            <span class="text-violet-300 font-medium">generalización</span>.
+        </p>
+
+    </div>
+</div>

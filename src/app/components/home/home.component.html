@@ -75,15 +75,56 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-10 w-full p-10">
-        <div class="flex flex-row flex-wrap items-center justify-center gap-10">
-            @for (item of items; track $index) {
-                <app-analytics-components-description
-                    [item]="item">
+        <div>
+            <h2 class="text-3xl font-serif text-center m-6 p-6">Analytics Components Description</h2>
+
+            <div class="flex flex-row flex-wrap items-center justify-center gap-10">
+                @for (item of items; track $index) {
+
+                <app-analytics-components-description [item]="item">
                 </app-analytics-components-description>
-            }
+                }
+            </div>
         </div>
-        <div><img src="images/bannerCaracteristicas.jpg"></div>
+
+        <div class="flex items-center"><img src="images/bannerCaracteristicas.jpg"></div>
     </div>
+
+    
+    <div class="flex flex-col gap-6 p-10">
+
+        <a class="color-card grad-purple h-100 w-full px-20 py-10" routerLink="knn">
+            <div class="w-full h-full flex justify-start items-start  text-[8rem] londrina-sketch-regular">
+                KNN
+            </div>
+        </a>
+
+        <a class="color-card grad-yellow h-100 w-full px-20 py-10" routerLink="cousine">
+            <div class="w-full h-full flex justify-center items-end  text-[8rem] londrina-sketch-regular">
+                Cousine Semilarity
+            </div>
+        </a>
+
+        <a class="color-card grad-orange h-100 w-full px-20 py-10" routerLink="kmeans">
+            <div class="w-full h-full flex justify-end items-end text-[8rem] londrina-sketch-regular">
+                K-Means
+            </div>
+        </a>
+
+        <a class="color-card grad-pink h-100 w-full px-20 py-10" routerLink="decision-tree">
+            <div class="w-full h-full flex justify-start items-start text-[8rem] londrina-sketch-regular">
+                Decision Tree
+            </div>
+        </a>
+
+        <a class="color-card grad-green h-100 w-full px-20 py-10" routerLink="random-forest">
+            <div class="w-full h-full flex justify-end items-end text-[8rem] londrina-sketch-regular">
+                Random Forest
+            </div>
+        </a>
+
+    </div>
+
 
 
 </section>

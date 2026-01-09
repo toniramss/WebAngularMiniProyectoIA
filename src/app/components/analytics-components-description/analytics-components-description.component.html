@@ -1,2 +1,67 @@
-<p>{{item.title}}</p>
-<p>{{item.description}}</p>
+<div
+  class="w-80 rounded-2xl border border-white/10 bg-black/40
+         backdrop-blur-md p-6 transition hover:border-white/25"
+>
+
+  <!-- Título -->
+  <h3 class="text-lg text-center font-semibold tracking-wide mb-2">
+    {{ item.title }}
+  </h3>
+
+  <!-- Descripción -->
+  <p class="text-sm text-center text-white/65 leading-relaxed mb-4">
+    {{ item.description }}
+  </p>
+
+  <!-- Datos -->
+  <div class="grid grid-cols-2 gap-y-3 text-sm">
+
+    <!-- Unidad -->
+    <div class="text-white/40 uppercase tracking-wider text-xs">
+      Unit
+    </div>
+    <div class="text-white/80">
+      {{ item.unit || '—' }}
+    </div>
+
+    <!-- Rango -->
+    <div class="text-white/40 uppercase tracking-wider text-xs">
+      Range
+    </div>
+    <div class="text-white/80">
+      {{ item.range }}
+    </div>
+
+    <!-- Media -->
+    <div class="text-white/40 uppercase tracking-wider text-xs">
+      Average
+    </div>
+    <div class="text-white/80">
+      {{ item.avg }}
+    </div>
+
+    <!-- Relación -->
+    <div class="text-white/40 uppercase tracking-wider text-xs">
+      Relation
+    </div>
+    <div
+      class="font-medium"
+      [ngClass]="{
+        'text-green-400': item.relation === 'Positiva' || item.relation === 'Muy positiva',
+        'text-red-400': item.relation === 'Negativa',
+        'text-yellow-400': item.relation === 'Débil',
+        'text-blue-400': item.relation === 'Objetivo'
+      }"
+    >
+      {{ item.relation }}
+    </div>
+
+  </div>
+
+  <!-- Glow decorativo -->
+  <div
+    class="pointer-events-none absolute inset-0 rounded-2xl
+           opacity-0 group-hover:opacity-100 transition
+           shadow-[0_0_60px_rgba(255,255,255,0.05)]"
+  ></div>
+</div>
