@@ -1,0 +1,89 @@
+<section class="relative w-full overflow-hidden text-white min-h-[calc(100vh-80px)]">
+
+    <div class="relative mx-auto w-full max-w-6xl px-6 h-full">
+        <div class="grid grid-cols-1 md:grid-cols-2 items-center gap-10 h-full py-10">
+
+            <!-- Izquierda -->
+            <div class="relative max-w-xl ">
+                <p class="text-xs tracking-[0.3em] uppercase text-white/50 mb-5 mt-20">DataSet</p>
+
+                <h1 class="font-serif text-5xl md:text-6xl leading-[0.95] mb-6">WINE QUALITY</h1>
+
+                <div class="space-y-2 text-white/70 text-sm">
+                    <p class="tracking-[0.22em] uppercase">2026</p>
+                    <p class="tracking-[0.18em] uppercase text-xs">Arnau Rey · Pau Blanco · Pol Miret · Toni Rams</p>
+                    <p class="tracking-[0.18em] uppercase text-xs">Máster de IA i Big Data</p>
+                </div>
+
+                <div class="mt-10 flex items-center gap-4">
+                    <a class="px-9 py-3 rounded-full bg-white text-black text-xs tracking-[0.28em] uppercase font-medium border border-white/70 hover:bg-white/90 transition"
+                        href="#">
+                        White
+                    </a>
+                    <a class="px-9 py-3 rounded-full bg-transparent text-white text-xs tracking-[0.28em] uppercase font-medium border border-white/25 hover:border-white/60 hover:bg-white/5 transition"
+                        href="#">
+                        Red
+                    </a>
+                </div>
+
+
+
+            </div>
+
+            <!-- Derecha -->
+            <div class="relative flex justify-center md:justify-end items-end">
+                <img src="images/portada.png" alt="Wine bottles"
+                    class="p-10 w-[320px] md:w-[420px] drop-shadow-[0_30px_60px_rgba(0,0,0,0.65)]" />
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Barra de color (debajo del hero) -->
+    <div class="mt-10 w-full">
+        <div class="mx-auto max-w-6xl px-6">
+            <div class="w-full px-8 py-6">
+                <div class="flex items-center justify-center gap-10">
+                    <!-- Label -->
+                    <div class="text-xs tracking-[0.28em] uppercase text-white/60">
+                        COLOR
+                    </div>
+
+                    <div class="flex items-center gap-12 ms-5">
+                        <!-- 1 -->
+                        <button class="group flex flex-col items-center gap-2" type="button">
+                            <span class="h-10 w-10 rounded-full bg-[#3A3A3A] ring-1 ring-white/15
+                     shadow-[0_0_0_6px_rgba(255,255,255,0.04)]"></span>
+                            <span class="text-[11px] tracking-[0.22em] uppercase text-white/45">
+                                #3A3A3A
+                            </span>
+                        </button>
+
+                        <!-- 2 (seleccionado) -->
+                        <button class="group flex flex-col items-center gap-2" type="button">
+                            <span class="h-10 w-10 rounded-full bg-[#FFFFFF]
+                     ring-2 ring-white/70
+                     shadow-[0_0_0_8px_rgba(255,255,255,0.08)]"></span>
+                            <span class="text-[11px] tracking-[0.22em] uppercase text-white/45">
+                                #FFFFFF
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-10 w-full p-10">
+        <div class="flex flex-row flex-wrap items-center justify-center gap-10">
+            @for (item of items; track $index) {
+                <app-analytics-components-description
+                    [item]="item">
+                </app-analytics-components-description>
+            }
+        </div>
+        <div><img src="images/bannerCaracteristicas.jpg"></div>
+    </div>
+
+
+</section>
